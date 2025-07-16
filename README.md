@@ -40,3 +40,16 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+
+## Troubleshooting Node version errors
+
+If the dev server fails with errors like `TypeError: crypto.hash is not a function`, your shell may be picking up an older Node.js release. Ensure that [nvm](https://github.com/nvm-sh/nvm) loads before any Node.js installation from Homebrew:
+
+```bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+export PATH="$NVM_DIR/versions/node/$(nvm version)/bin:$PATH"
+```
+
+Reload your shell and verify with `node --version` that you see a 24.x release.
