@@ -53,3 +53,14 @@ export PATH="$NVM_DIR/versions/node/$(nvm version)/bin:$PATH"
 ```
 
 Reload your shell and verify with `node --version` that you see a 24.x release.
+
+
+## Troubleshooting missing dependencies
+
+If `npm run lint` or `npm run build` fail with errors like "prettier-plugin-svelte not found" or "vite: command not found", install the project's dependencies:
+
+```bash
+npm install
+```
+
+Then re-run the command.
