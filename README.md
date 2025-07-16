@@ -16,6 +16,13 @@ npx sv create my-app
 
 ## Developing
 
+This project uses Node 24.4.1. If you're using [nvm](https://github.com/nvm-sh/nvm), run:
+
+```bash
+nvm use
+# run `nvm install` first if Node 24.4.1 isn't installed
+```
+
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
 ```bash
