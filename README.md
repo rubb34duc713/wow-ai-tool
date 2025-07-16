@@ -16,6 +16,10 @@ npx sv create my-app
 
 ## Developing
 
+This project requires **Node.js 24** or newer. If you use
+[nvm](https://github.com/nvm-sh/nvm), run `nvm use` to activate the version
+listed in `.nvmrc` before starting the dev server.
+
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
 ```bash
