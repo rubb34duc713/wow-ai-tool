@@ -3,6 +3,7 @@ import { z } from 'zod';
 import OpenAI from 'openai';
 import { supaAdmin } from '$lib/server/supaAdmin';
 import { cfg } from '$lib/env';
+import { getSecret } from '$lib/server/secrets';
 
 const bodySchema = z.object({
 	limit: z.number().int().min(1).max(20).optional().default(5)
@@ -35,13 +36,15 @@ export const POST: RequestHandler = async ({ request }) => {
 async function summariseLLM(text: string) {
 	// Aggregate summaries are longer—use OpenAI by default, fall back to Grok.
 	try {
-		const openai = new OpenAI({ apiKey: cfg.OPENAI_API_KEY });
+		const openaiKey = cfg.OPENAI_API_KEY ?? (await getSecret('OPENAI_API_KEY')) ?? '';
+		const openai = new OpenAI({ apiKey: openaiKey });
 		return await callLLM(openai, text, 'gpt-4o-mini');
 	} catch {
-		if (cfg.GROK_API_KEY) {
+		const grokKey = cfg.GROK_API_KEY ?? (await getSecret('GROK_API_KEY'));
+		if (grokKey) {
 			const xai = new OpenAI({
 				baseURL: 'https://api.x.ai/v1',
-				apiKey: cfg.GROK_API_KEY
+				apiKey: grokKey
 			});
 			return await callLLM(xai, text, 'grok-3-mini');
 		}

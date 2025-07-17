@@ -3,6 +3,7 @@ import { z } from 'zod';
 import OpenAI from 'openai';
 import { supaAdmin } from '$lib/server/supaAdmin';
 import { cfg } from '$lib/env';
+import { getSecret } from '$lib/server/secrets';
 
 const schema = z.object({
 	conversation_id: z.string().uuid().optional(),
@@ -45,18 +46,20 @@ export const POST: RequestHandler = async ({ request }) => {
 };
 
 async function chatLLM(text: string): Promise<string> {
-	if (cfg.GROK_API_KEY) {
+	const grokKey = cfg.GROK_API_KEY ?? (await getSecret('GROK_API_KEY'));
+	if (grokKey) {
 		try {
 			const xai = new OpenAI({
 				baseURL: 'https://api.x.ai/v1',
-				apiKey: cfg.GROK_API_KEY!
+				apiKey: grokKey!
 			});
 			return await callLLM(xai, text, 'grok-3-mini');
 		} catch {
 			// fall back to OpenAI
 		}
 	}
-	const openai = new OpenAI({ apiKey: cfg.OPENAI_API_KEY });
+	const openaiKey = cfg.OPENAI_API_KEY ?? (await getSecret('OPENAI_API_KEY')) ?? '';
+	const openai = new OpenAI({ apiKey: openaiKey });
 	return await callLLM(openai, text, 'gpt-4o-mini');
 }
 

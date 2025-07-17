@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { Deepgram } from '@deepgram/sdk';
 import { cfg } from '$lib/env';
 import { supaAdmin } from '$lib/server/supaAdmin';
+import { getSecret } from '$lib/server/secrets';
 import OpenAI from 'openai';
 
 const bodySchema = z
@@ -48,7 +49,8 @@ async function transcribeYouTube(url: string) {
 	for await (const c of stream) chunks.push(c);
 	const buffer = Buffer.concat(chunks);
 
-	const dg = new Deepgram(cfg.DEEPGRAM_API_KEY);
+	const dgKey = cfg.DEEPGRAM_API_KEY ?? (await getSecret('DEEPGRAM_API_KEY')) ?? '';
+	const dg = new Deepgram(dgKey);
 	// @ts-expect-error deepgram SDK types don't expose `transcription`
 	const { result } = await dg.transcription.preRecorded({ buffer });
 	return result?.channels[0]?.alternatives[0]?.transcript ?? '';
@@ -56,18 +58,20 @@ async function transcribeYouTube(url: string) {
 
 async function summariseLLM(text: string) {
 	// Try Grok first (xAI API is OpenAI-compatible)
-	if (cfg.GROK_API_KEY) {
+	const grokKey = cfg.GROK_API_KEY ?? (await getSecret('GROK_API_KEY'));
+	if (grokKey) {
 		try {
 			const xai = new OpenAI({
 				baseURL: 'https://api.x.ai/v1',
-				apiKey: cfg.GROK_API_KEY
+				apiKey: grokKey
 			});
 			return await callLLM(xai, text, 'grok-3-mini');
 		} catch {
 			// fall through to OpenAI
 		}
 	}
-	const openai = new OpenAI({ apiKey: cfg.OPENAI_API_KEY });
+	const openaiKey = cfg.OPENAI_API_KEY ?? (await getSecret('OPENAI_API_KEY')) ?? '';
+	const openai = new OpenAI({ apiKey: openaiKey });
 	return await callLLM(openai, text, 'gpt-4o-mini');
 }
 

@@ -80,7 +80,9 @@ and Vercel as described in the build plan.
 ## Environment variables
 
 Create a `.env` file in the project root with the following keys and add the
-exact same values in Vercel → **Project → Settings → Environment Variables**:
+exact same values in Vercel → **Project → Settings → Environment Variables**.
+You can also store the API keys in the `secrets` table created by
+`supabase_schema.sql` and fetch them at runtime using the service role:
 
 ```bash
 PUBLIC_SUPABASE_URL=...

@@ -3,9 +3,9 @@ import { env } from '$env/dynamic/private';
 
 export const cfg = z
 	.object({
-		SUPABASE_SERVICE_KEY: z.string(),
-		DEEPGRAM_API_KEY: z.string(),
-		OPENAI_API_KEY: z.string(),
+		SUPABASE_SERVICE_KEY: z.string().optional(),
+		DEEPGRAM_API_KEY: z.string().optional(),
+		OPENAI_API_KEY: z.string().optional(),
 		GROK_API_KEY: z.string().optional()
 	})
 	.parse(env);
