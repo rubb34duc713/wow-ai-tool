@@ -1,18 +1,6 @@
 # WOW AI Tool
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
+A SvelteKit app for summarising YouTube videos and chatting with AI.
 
 ## Developing
 
@@ -103,6 +91,8 @@ DEEPGRAM_API_KEY=...
 OPENAI_API_KEY=...
 GROK_API_KEY=...
 ```
+
+Set them in both places; the Vercel build fails if any are missing.
 
 Without these variables the build will fail. In particular, omitting
 `SUPABASE_SERVICE_KEY` results in a Zod error during the Vercel build.
