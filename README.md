@@ -36,3 +36,24 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+
+### Deployment runtime
+
+This project targets the Node.js **22.x** runtime when deployed to Vercel. If you need Node 24, update the Vercel adapter in `svelte.config.js` with `runtime: 'nodejs24.x'`, provided your account supports that runtime.
+
+### Environment variables
+
+Create a `.env` file (not committed to git) using the provided `.env.example` as a template. Set the following values:
+
+```
+PUBLIC_SUPABASE_URL=
+PUBLIC_SUPABASE_ANON_KEY=
+
+SUPABASE_SERVICE_KEY=
+DEEPGRAM_API_KEY=
+OPENAI_API_KEY=
+YOUTUBE_API_KEY=
+GROK_API_KEY=
+```
+
+These same keys should also be added in Vercel under **Project → Environment** for both Production and Preview.
