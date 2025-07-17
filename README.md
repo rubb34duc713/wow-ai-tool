@@ -36,3 +36,33 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+
+## Deployment: Vercel
+
+The repo is ready to deploy to Vercel. If an existing Vercel project is linked
+to the wrong GitHub repository you can either relink it or remove it:
+
+1. **Relink an existing project**
+   - In the project folder run `vercel link` and choose the correct Vercel
+     project.
+   - Or open the project in the Vercel dashboard → **Settings → Git** and switch
+     the connected repository.
+
+2. **Create a new project**
+   - Run `vercel` in the project folder and choose **Create a new project** when
+     prompted.
+   - Or head to the Vercel dashboard, click **New Project**, and import this
+     GitHub repository.
+
+3. **Delete an unused project**
+   - Visit the project’s dashboard in Vercel.
+   - Scroll to **Danger Zone** at the bottom of **Settings** and click
+     **Delete**.
+
+Once the project is linked to this repo you can deploy with:
+
+```bash
+vercel --prod
+```
+
+Every push to GitHub will then trigger a new deploy automatically.
