@@ -39,7 +39,7 @@ You can preview the production build with `npm run preview`.
 
 ### Deployment runtime
 
-This project targets the Node.js **22.x** runtime when deployed to Vercel. If you need Node 24, update the Vercel adapter in `svelte.config.js` with `runtime: 'nodejs24.x'`, provided your account supports that runtime.
+Local development and Vercel deployments use the Node.js **22.x** runtime. You can switch to Node 24 by setting `runtime: 'nodejs24.x'` in `svelte.config.js` once your account supports it.
 
 ### Environment variables
 
