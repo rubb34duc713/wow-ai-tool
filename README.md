@@ -65,6 +65,14 @@ Once the project is linked to this repo you can deploy with:
 vercel --prod
 ```
 
+Make sure your Git remote is pointing at the correct GitHub repository and
+push your latest commits before deploying:
+
+```bash
+git remote -v      # verify URL
+git push origin main
+```
+
 Every push to GitHub will then trigger a new deploy automatically.
 
 ## Database setup (Supabase)
@@ -80,6 +88,23 @@ results, aggregated summaries, daily snapshots, chat conversations and a secure
 limit each user to rows they created (while the service role can access
 everything). After running the script you can add the Supabase keys to `.env`
 and Vercel as described in the build plan.
+
+## Environment variables
+
+Create a `.env` file in the project root with the following keys (Vercel needs
+the same values in its **Environment Variables** settings):
+
+```bash
+PUBLIC_SUPABASE_URL=...
+PUBLIC_SUPABASE_ANON_KEY=...
+
+SUPABASE_SERVICE_KEY=...
+DEEPGRAM_API_KEY=...
+OPENAI_API_KEY=...
+GROK_API_KEY=...
+```
+
+Without these variables the build will fail.
 
 ## Features
 
