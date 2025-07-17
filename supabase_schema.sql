@@ -12,6 +12,8 @@ create table if not exists public.transcriptions (
   status      text not null default 'complete' check (status in ('pending','complete','error')),
   created_at  timestamptz default now()
 );
+alter table public.transcriptions
+  add column if not exists created_by uuid references auth.users(id) default auth.uid();
 create index if not exists transcriptions_created_at_idx on public.transcriptions (created_at);
 create index if not exists transcriptions_source_idx on public.transcriptions (source);
 
@@ -33,6 +35,8 @@ create table if not exists public.analysis_details (
   embedding       vector(1536),
   created_at      timestamptz default now()
 );
+alter table public.analysis_details
+  add column if not exists created_by uuid references auth.users(id) default auth.uid();
 create index if not exists analysis_details_transcription_idx on public.analysis_details (transcription_id);
 
 alter table public.analysis_details enable row level security;
@@ -49,6 +53,8 @@ create table if not exists public.summary_clusters (
   summary     text,
   created_at  timestamptz default now()
 );
+alter table public.summary_clusters
+  add column if not exists created_by uuid references auth.users(id) default auth.uid();
 create index if not exists summary_clusters_created_at_idx on public.summary_clusters (created_at);
 
 alter table public.summary_clusters enable row level security;
@@ -80,6 +86,8 @@ create table if not exists public.conversations (
   created_by  uuid references auth.users(id) default auth.uid(),
   created_at  timestamptz default now()
 );
+alter table public.conversations
+  add column if not exists created_by uuid references auth.users(id) default auth.uid();
 create index if not exists conversations_created_at_idx on public.conversations (created_at);
 
 alter table public.conversations enable row level security;
@@ -99,6 +107,8 @@ create table if not exists public.messages (
   embedding       vector(1536),
   created_at      timestamptz default now()
 );
+alter table public.messages
+  add column if not exists created_by uuid references auth.users(id) default auth.uid();
 create index if not exists messages_conversation_idx on public.messages (conversation_id);
 
 alter table public.messages enable row level security;
