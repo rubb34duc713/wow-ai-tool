@@ -25,6 +25,8 @@ nvm use
 
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
+**Before running `npm run dev` or any other npm script, be sure you've installed dependencies by running `npm install` (or `pnpm install`, `yarn`).**
+
 ```bash
 npm run dev
 
