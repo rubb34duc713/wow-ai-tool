@@ -36,3 +36,7 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+
+## Supabase
+
+Server routes that write to the database, such as `/api/ingest`, require the Supabase service key. Set `SUPABASE_SERVICE_KEY` in your environment when deploying or running the server.
