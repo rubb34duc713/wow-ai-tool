@@ -40,9 +40,9 @@ export const POST: RequestHandler = async ({ request }) => {
 /* ---------- helpers ---------- */
 
 async function transcribeYouTube(url: string) {
-	const { getInfo, downloadFromInfo } = await import('ytdl-core');
-	const info = await getInfo(url);
-	const stream = downloadFromInfo(info, { quality: 'highestaudio' });
+	const ytdl = await import('ytdl-core');
+	const info = await ytdl.default.getInfo(url);
+	const stream = ytdl.default.downloadFromInfo(info, { quality: 'highestaudio' });
 
 	const chunks: Uint8Array[] = [];
 	for await (const c of stream) chunks.push(c);
