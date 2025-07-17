@@ -1,7 +1,7 @@
 import { json, type RequestHandler } from '@sveltejs/kit';
 import { z } from 'zod';
 import OpenAI from 'openai';
-import { supaAdmin } from '$lib/server/supaAdmin';
+import { getSupaAdmin } from '$lib/server/supaAdmin';
 import { cfg } from '$lib/env';
 import { getSecret } from '$lib/server/secrets';
 
@@ -12,6 +12,7 @@ const bodySchema = z.object({
 export const POST: RequestHandler = async ({ request }) => {
 	try {
 		const { limit } = bodySchema.parse(await request.json());
+		const supaAdmin = getSupaAdmin();
 
 		const { data, error } = await supaAdmin
 			.from('transcriptions')

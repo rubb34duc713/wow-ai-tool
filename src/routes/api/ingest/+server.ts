@@ -2,7 +2,7 @@ import { json, type RequestHandler } from '@sveltejs/kit';
 import { z } from 'zod';
 import { Deepgram } from '@deepgram/sdk';
 import { cfg } from '$lib/env';
-import { supaAdmin } from '$lib/server/supaAdmin';
+import { getSupaAdmin } from '$lib/server/supaAdmin';
 import { getSecret } from '$lib/server/secrets';
 import OpenAI from 'openai';
 
@@ -18,6 +18,7 @@ const bodySchema = z
 
 export const POST: RequestHandler = async ({ request }) => {
 	try {
+		const supaAdmin = getSupaAdmin();
 		const data = bodySchema.parse(await request.json());
 
 		const transcript = data.paste ?? (await transcribeYouTube(data.url!));

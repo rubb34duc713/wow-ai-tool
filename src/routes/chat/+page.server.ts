@@ -1,7 +1,8 @@
 import type { PageServerLoad } from './$types';
-import { supaAdmin } from '$lib/server/supaAdmin';
+import { getSupaAdmin } from '$lib/server/supaAdmin';
 
 export const load: PageServerLoad = async ({ cookies }) => {
+	const supaAdmin = getSupaAdmin();
 	let convId = cookies.get('conv');
 	if (!convId) {
 		const { data, error } = await supaAdmin.from('conversations').insert({}).select('id').single();

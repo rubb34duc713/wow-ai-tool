@@ -1,7 +1,7 @@
 import { json, type RequestHandler } from '@sveltejs/kit';
 import { z } from 'zod';
 import OpenAI from 'openai';
-import { supaAdmin } from '$lib/server/supaAdmin';
+import { getSupaAdmin } from '$lib/server/supaAdmin';
 import { cfg } from '$lib/env';
 import { getSecret } from '$lib/server/secrets';
 
@@ -12,6 +12,7 @@ const schema = z.object({
 
 export const POST: RequestHandler = async ({ request }) => {
 	try {
+		const supaAdmin = getSupaAdmin();
 		const { conversation_id, message } = schema.parse(await request.json());
 		let convId = conversation_id;
 		if (!convId) {
