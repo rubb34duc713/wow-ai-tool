@@ -91,8 +91,8 @@ and Vercel as described in the build plan.
 
 ## Environment variables
 
-Create a `.env` file in the project root with the following keys (Vercel needs
-the same values in its **Environment Variables** settings):
+Create a `.env` file in the project root with the following keys and add the
+exact same values in Vercel → **Project → Settings → Environment Variables**:
 
 ```bash
 PUBLIC_SUPABASE_URL=...
@@ -104,7 +104,8 @@ OPENAI_API_KEY=...
 GROK_API_KEY=...
 ```
 
-Without these variables the build will fail.
+Without these variables the build will fail. In particular, omitting
+`SUPABASE_SERVICE_KEY` results in a Zod error during the Vercel build.
 
 ## Features
 
