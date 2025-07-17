@@ -1,15 +1,15 @@
 <script lang="ts">
-	let url = '';
+	let limit = 5;
 	let summary = '';
 	let busy = false;
 
 	async function submit() {
 		busy = true;
 		summary = '';
-		const r = await fetch('/api/ingest', {
+		const r = await fetch('/api/aggregate', {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ source: 'youtube', url })
+			body: JSON.stringify({ limit })
 		});
 		const j = await r.json();
 		summary = j.summary ?? j.error;
@@ -18,16 +18,19 @@
 </script>
 
 <main class="mx-auto max-w-xl p-8">
-	<h1 class="mb-6 text-3xl font-bold">WOW AI Tool MVP-0</h1>
+	<h1 class="mb-4 text-2xl font-bold">Aggregate Summaries</h1>
 
-	<input class="mb-2 w-full border p-2" placeholder="Paste YouTube URL" bind:value={url} />
+	<label class="mb-2 block">
+		<span class="mr-2">Count:</span>
+		<input type="number" bind:value={limit} min="1" max="20" class="w-16 border p-1" />
+	</label>
 
 	<button
 		on:click={submit}
 		class="bg-blue-600 px-4 py-2 text-white disabled:opacity-50"
-		disabled={busy || !url}
+		disabled={busy}
 	>
-		{busy ? 'Processing…' : 'Summarise'}
+		{busy ? 'Processing…' : 'Combine'}
 	</button>
 
 	{#if summary}
