@@ -33,7 +33,12 @@
 		"tailwindcss": "^4.0.0",
 		"typescript": "^5.0.0",
 		"typescript-eslint": "^8.20.0",
+ 70wrfu-codex/deploy-sveltekit-app-to-vercel
 		"vite": "^7.0.4"
+=======
+		"vite": "^7.0.4",
+		"yt-dlp-exec": "^1.0.2"
+ main
 	},
 	"dependencies": {
 		"@deepgram/sdk": "^4.9.1",
