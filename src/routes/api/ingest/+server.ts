@@ -7,7 +7,7 @@ import { getSupaAdmin } from '$lib/server/supaAdmin';
 import { getSecret } from '$lib/server/secrets';
 import { fetchYouTubeCaptions } from '$lib/captions';
 
-/** Schema for incoming requests */
+/** Validate incoming payload */
 const bodySchema = z
   .object({
     source: z.enum(['youtube', 'doc']),
@@ -23,23 +23,23 @@ export const POST: RequestHandler = async ({ request }) => {
     const supaAdmin = getSupaAdmin();
     const data      = bodySchema.parse(await request.json());
 
-    // 1. Try to fetch YouTube captions if it's a YouTube URL
+    // 1️⃣ Try fetching YouTube captions if applicable
     let transcript = '';
     if (data.source === 'youtube' && data.url) {
       transcript = await fetchYouTubeCaptions(data.url);
     }
 
-    // 2. Fallback to pasted text or Deepgram transcription
+    // 2️⃣ Fallback to pasted text or Deepgram transcription
     if (!transcript) {
       transcript = data.paste
         ? data.paste
         : await transcribeYouTube(data.url!);
     }
 
-    // 3. Summarize via LLM
+    // 3️⃣ Get the LLM summary
     const summary = await summariseLLM(transcript);
 
-    // 4. Persist into Supabase
+    // 4️⃣ Persist both transcript and summary
     await supaAdmin.from('transcriptions').insert({
       source:     data.source,
       raw_url:    data.url ?? null,
@@ -74,42 +74,3 @@ async function transcribeYouTube(url: string): Promise<string> {
   } catch (e: any) {
     const code = e.statusCode ?? e.status;
     if (code === 410) {
-      throw new Error('YouTube returned 410 (video unavailable)');
-    }
-    console.error('transcribeYouTube failed:', e);
-    throw e;
-  }
-}
-
-async function summariseLLM(text: string): Promise<string> {
-  try {
-    // First try Grok (xAI)
-    const grokKey = cfg.GROK_API_KEY ?? (await getSecret('GROK_API_KEY'));
-    if (grokKey) {
-      try {
-        const xai = new OpenAI({ baseURL: 'https://api.x.ai/v1', apiKey: grokKey });
-        return await callLLM(xai, text, 'grok-3-mini');
-      } catch {
-        console.warn('Grok failed, falling back to OpenAI');
-      }
-    }
-    // Fallback to OpenAI
-    const openaiKey = cfg.OPENAI_API_KEY ?? (await getSecret('OPENAI_API_KEY')) ?? '';
-    const openai    = new OpenAI({ apiKey: openaiKey });
-    return await callLLM(openai, text, 'gpt-4o-mini');
-  } catch (e) {
-    console.error('summariseLLM failed:', e);
-    throw e;
-  }
-}
-
-async function callLLM(client: OpenAI, text: string, model: string): Promise<string> {
-  const { choices } = await client.chat.completions.create({
-    model,
-    messages: [
-      { role: 'system', content: 'You are a concise crypto-research summariser.' },
-      { role: 'user',   content: `Summarise:\n\n${text}` }
-    ]
-  });
-  return choices[0].message.content;
-}

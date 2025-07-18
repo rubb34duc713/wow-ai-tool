@@ -62,6 +62,9 @@ Once the project is linked to this repo you can deploy with:
 vercel --prod
 ```
 
+70wrfu-codex/deploy-sveltekit-app-to-vercel
+Every push to GitHub will then trigger a new deploy automatically.
+=======
 Make sure your Git remote is pointing at the correct GitHub repository and
 push your latest commits before deploying:
 
@@ -121,3 +124,4 @@ or the build will fail with a Zod error.
 
 Ingestion and chat use **Grok 3 Mini** by default and fall back to OpenAI if
 needed. Aggregate summaries are generated with OpenAI’s GPT‑4o model.
+main
