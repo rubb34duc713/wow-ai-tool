@@ -88,10 +88,11 @@ and Vercel as described in the build plan.
 
 ## Environment variables
 
-Create a `.env` file in the project root with the following keys and add the
-exact same values in Vercel → **Project → Settings → Environment Variables**.
-You can also store the API keys in the `secrets` table created by
-`supabase_schema.sql` and fetch them at runtime using the service role:
+Create a `.env` file in the project root with the following keys. In Vercel,
+set at least `SUPABASE_URL` (or `PUBLIC_SUPABASE_URL`) and
+`SUPABASE_SERVICE_KEY` so the build can connect to your database. The remaining
+API keys may also be stored in the `secrets` table created by
+`supabase_schema.sql` and loaded at runtime:
 
 ```bash
 PUBLIC_SUPABASE_URL=...
@@ -106,10 +107,9 @@ OPENAI_API_KEY=...
 GROK_API_KEY=...
 ```
 
-Set them in both places; the Vercel build fails if any are missing.
-
-Without these variables the build will fail. In particular, omitting
-`SUPABASE_SERVICE_KEY` results in a Zod error during the Vercel build.
+If a key is not set in the environment the app will attempt to read it from the
+`secrets` table. At minimum, Vercel must provide a Supabase URL and service key
+or the build will fail with a Zod error.
 
 ## Features
 
