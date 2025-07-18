@@ -4,7 +4,16 @@ A SvelteKit app for summarising YouTube videos and chatting with AI.
 
 ## Developing
 
+This project uses Node 24.4.1. If you're using [nvm](https://github.com/nvm-sh/nvm), run:
+
+```bash
+nvm use
+# run `nvm install` first if Node 24.4.1 isn't installed
+```
+
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+
+**Before running `npm run dev` or any other npm script, be sure you've installed dependencies by running `npm install` (or `pnpm install`, `yarn`).**
 
 ```bash
 npm run dev
