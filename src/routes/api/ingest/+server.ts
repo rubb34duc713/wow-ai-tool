@@ -57,6 +57,11 @@ async function transcribeYouTube(url: string) {
 		const { result } = await dg.transcription.preRecorded({ buffer });
 		return result?.channels[0]?.alternatives[0]?.transcript ?? '';
 	} catch (err) {
+		const e = err as { statusCode?: number; status?: number };
+		const code = e.statusCode ?? e.status;
+		if (code === 410) {
+			throw new Error('YouTube returned 410 (video unavailable)');
+		}
 		console.error('transcribeYouTube failed:', err);
 		throw err;
 	}
