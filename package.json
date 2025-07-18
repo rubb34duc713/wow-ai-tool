@@ -33,6 +33,15 @@
 		"tailwindcss": "^4.0.0",
 		"typescript": "^5.0.0",
 		"typescript-eslint": "^8.20.0",
-		"vite": "^7.0.4"
+		"vite": "^7.0.4",
+		"yt-dlp-exec": "^1.0.2"
+	},
+	"dependencies": {
+		"@deepgram/sdk": "^4.9.1",
+		"@supabase/supabase-js": "^2.39.0",
+		"dotenv-safe": "^8.2.0",
+		"openai": "^4.39.2",
+		"ytdl-core": "^4.11.5",
+		"zod": "^3.22.4"
 	}
 }
