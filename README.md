@@ -121,27 +121,3 @@ or the build will fail with a Zod error.
 
 Ingestion and chat use **Grok 3 Mini** by default and fall back to OpenAI if
 needed. Aggregate summaries are generated with OpenAI’s GPT‑4o model.
-
-## Deployment: Vercel
-
-The repo is ready to deploy to Vercel. If an existing Vercel project is linked
-to the wrong GitHub repository you can either relink it or remove it:
-
-1. **Relink an existing project**
-   - In the project folder run `vercel link` and choose the correct Vercel
-     project.
-   - Or open the project in the Vercel dashboard → **Settings → Git** and switch
-     the connected repository.
-
-2. **Delete an unused project**
-   - Visit the project’s dashboard in Vercel.
-   - Scroll to **Danger Zone** at the bottom of **Settings** and click
-     **Delete**.
-
-Once the project is linked to this repo you can deploy with:
-
-```bash
-vercel --prod
-```
-
-Every push to GitHub will then trigger a new deploy automatically.
